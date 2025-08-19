@@ -1,0 +1,42 @@
+/* Ensure the card container has a distinct background */
+.card-container {
+  background: rgba(30, 30, 40, 0.8); /* Darker background for contrast */
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+/* Style the resume section */
+.resume-section h2 {
+  color: #00ffff; /* Cyan for headers */
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.resume-section ul {
+  color: #d3d3d3; /* Light gray for readability */
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+.resume-section li {
+  margin-bottom: 0.25rem;
+}
+
+/* Style buttons for better visibility */
+button {
+  color: #ffffff;
+  transition: background-color 0.3s ease;
+}
+
+/* Ensure AR container has a visible background */
+#ar-container {
+  background: rgba(50, 50, 60, 0.5);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+/* Style bubbles with a gradient */
+.bubble {
+  background: linear-gradient(45deg, #00ffff, #ff00ff);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Your Name",
+  "title": "Job Title",
+  "skills": ["JavaScript", "AI Development", "Web Design"],
+  "projects": [
+    { "name": "Neural Business Card", "description": "AI-powered networking tool" }
+  ],
+  "testimonials": [
+    { "author": "John Doe", "text": "Amazing work!" }
+  ]
+}
