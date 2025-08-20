@@ -13,29 +13,45 @@ export default function Home() {
   const [resume, setResume] = useState(null);
   const [clicks, setClicks] = useState(0);
   const [bubbles, setBubbles] = useState([]);
+  const [chatInput, setChatInput] = useState("");
+const [chatResponse, setChatResponse] = useState("");
 
   useEffect(() => {
-    fetch("/resume.json")
-      .then((res) => res.json())
-      .then((data) => setResume(data));
-
-    shortenUrl(window.location.href).then((shortUrl) => {
-      getClicks(shortUrl).then((clickData) => {
-        setClicks(clickData.length);
-      });
+  fetch("/resume.json")
+    .then((res) => res.json())
+    .then((data) => {
+      setResume(data);
+      // Mock user database (static JSON)
+      const mockUsers = [
+        { name: "Jane Doe", skills: ["Python", "AI"], location: "Berlin" },
+        { name: "John Smith", skills: ["JavaScript", "Web Dev"], location: "London" },
+      ];
+      fetch("https://api.cohere.ai/classify", {
+        method: "POST",
+        headers: { Authorization: `Bearer your_cohere_token`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          texts: [data.skills.join(" ")],
+          labels: mockUsers.map(u => u.name),
+        }),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          const bestMatch = mockUsers[result.classifications[0].predictions.indexOf(Math.max(...result.classifications[0].predictions))];
+          console.log("Best Match:", bestMatch);
+          // Add to state or display
+        });
     });
+}, []);
 
-    initAR("ar-container");
-
-    const interval = setInterval(() => {
-      setBubbles((prev) => [
-        ...prev,
-        { id: Date.now(), x: Math.random() * 300, y: -50 },
-      ]);
-      if (bubbles.length > 5) setBubbles((prev) => prev.slice(1));
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
+const handleChat = () => {
+  fetch("https://api-inference.huggingface.co/models/distilgpt2", {
+    method: "POST",
+    headers: { Authorization: `Bearer your_hf_token`, "Content-Type": "application/json" },
+    body: JSON.stringify({ inputs: chatInput }),
+  })
+    .then((res) => res.json())
+    .then((data) => setChatResponse(data[0]?.generated_text || "No response"));
+};
 
   const playAudio = async () => {
     if (audioRef.current) {
@@ -127,6 +143,19 @@ export default function Home() {
         </div>
         <audio ref={audioRef} src="/intro.mp3" />
       </motion.div>
+      <div className="mt-4">
+  <input
+    value={chatInput}
+    onChange={(e) => setChatInput(e.target.value)}
+    placeholder="Ask about networking..."
+    className="p-2 rounded bg-gray-800 text-white"
+  />
+  <button onClick={handleChat} className="ml-2 bg-purple-500 hover:bg-purple-600 px-4 py-2 rounded">
+    Ask AI
+  </button>
+  <p>AI: {chatResponse}</p>
+</div>
+
     </div>
   );
 }
