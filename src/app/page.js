@@ -9,7 +9,7 @@ import './styles/card.css'; // Import the CSS file
 
 export default function Home() {
   const audioRef = useRef(null);
-  const [reactions, setReactions] = useState([]);
+  const [translatedText, setTranslatedText] = useState("");  const [reactions, setReactions] = useState([]);
   const [resume, setResume] = useState(null);
   const [clicks, setClicks] = useState(0);
   const [bubbles, setBubbles] = useState([]);
@@ -42,6 +42,18 @@ export default function Home() {
       audioRef.current.play();
       const analysis = await analyzeAudio("/intro.mp3");
       console.log("Audio Analysis:", analysis);
+      // Translate using libretranslate API
+      fetch("https://libretranslate.de/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          q: "Your intro text here", // Replace with actual text from audio transcription
+          source: "en",
+          target: "es", // Change to user-selected language
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => setTranslatedText(data.translatedText));
     }
   };
 
@@ -79,6 +91,18 @@ export default function Home() {
         <p>Card Views: {clicks}</p>
         <button onClick={playAudio} className="mt-4 bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded">
           Play Voice Intro
+        </button>
+        <p className="mt-2">Translated Text: {translatedText}</p>
+        <div className="reactions mt-4">
+          <h2 className="text-xl font-semibold">Reactions</h2>
+          <ul className="list-disc pl-5">
+            {reactions.map((reaction, index) => (
+              <li key={index}>{reaction.type} at {new Date(reaction.timestamp).toLocaleTimeString()}</li>
+            ))}
+          </ul>
+        </div>
+        <button onClick={() => setReactions([])} className="mt-2 bg-red-500 hover:bg-red-600 px-4 py-2 rounded">
+          Clear Reactions
         </button>
         <button onClick={logReaction} className="mt-2 bg-green-500 hover:bg-green-600 px-4 py-2 rounded">
           React (Smile)
