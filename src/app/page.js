@@ -92,6 +92,19 @@ export default function Home() {
           Play Voice Intro
         </button>
         <p>Translated: {translatedText}</p>
+        <div className="reactions mt-4">
+          <h2 className="text-xl font-semibold">Reactions</h2>
+          <ul className="list-disc pl-5">
+            {reactions.map((reaction, index) => (
+              <li key={index}>{reaction.type} at {new Date(reaction.timestamp).toLocaleTimeString()}</li>
+            ))}
+          </ul>
+        </div>
+        <h2 className="text-xl font-semibold mt-4">Resume</h2>
+        <p>{resume?.summary || "Your professional summary goes here."}</p>
+        <button onClick={() => setBubbles([])} className="mt-2 bg-red-500 hover:bg-red-600 px-4 py-2 rounded">
+          Clear Bubbles
+        </button>
         <button onClick={logReaction} className="mt-2 bg-green-500 hover:bg-green-600 px-4 py-2 rounded">
           React (Smile)
         </button>
