@@ -100,33 +100,14 @@ export default function Home() {
             ))}
           </ul>
         </div>
-        <h2 className="text-xl font-semibold mt-4">Resume</h2>
-        <p>{resume?.summary || "Your professional summary goes here."}</p>
+       
         <button onClick={() => setBubbles([])} className="mt-2 bg-red-500 hover:bg-red-600 px-4 py-2 rounded">
           Clear Bubbles
         </button>
         <button onClick={logReaction} className="mt-2 bg-green-500 hover:bg-green-600 px-4 py-2 rounded">
           React (Smile)
         </button>
-        <div className="resume-section mt-4">   
-          <h2 className="text-xl font-semibold">Experience</h2>
-          <ul className="list-disc pl-5">
-            {resume?.experience?.map((exp, index) => (
-              <li key={index}>
-                <strong>{exp.position}</strong> at {exp.company} ({exp.start} - {exp.end})
-                <p>{exp.description}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="resume-section mt-4">
-          <h2 className="text-xl font-semibold">Skills</h2>
-          <ul className="list-disc pl-5">
-            {resume?.skills?.map((skill, index) => (
-              <li key={index}>{skill}</li>
-            ))}
-          </ul>
-        </div>
+       
         <div id="ar-container" className="mt-4 h-64 relative">
           {bubbles.map((bubble) => (
             <div
