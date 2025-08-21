@@ -59,11 +59,7 @@ export default function Home() {
     }
   };
 
-  const logReaction = () => {
-    setReactions([...reactions, { type: "smile", timestamp: new Date().toISOString() }]);
-    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-    console.log("Reactions:", reactions);
-  };
+  
 
   const popBubble = (id) => {
     setBubbles((prev) => prev.filter((bubble) => bubble.id !== id));
@@ -96,18 +92,13 @@ export default function Home() {
           <h2 className="text-xl font-semibold">Reactions</h2>
           <ul className="list-disc pl-5">
             {reactions.map((reaction, index) => (
-              <li key={index}>{reaction.type} at {new Date(reaction.timestamp).toLocaleTimeString()}</li>
+              <li key={index}>{reaction.type}</li>
             ))}
           </ul>
         </div>
-       
-        <button onClick={() => setBubbles([])} className="mt-2 bg-red-500 hover:bg-red-600 px-4 py-2 rounded">
-          Clear Bubbles
+        <button onClick={popBubble} className="mt-2 bg-green-500 hover:bg-green-600 px-4 py-2 rounded">
+          👍
         </button>
-        <button onClick={logReaction} className="mt-2 bg-green-500 hover:bg-green-600 px-4 py-2 rounded">
-          React (Smile)
-        </button>
-       
         <div id="ar-container" className="mt-4 h-64 relative">
           {bubbles.map((bubble) => (
             <div
